@@ -1,0 +1,39 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: jdbc:mysql://localhost:3306/auto-wiki-prod
+    username: clabi
+    password: Cl@bi789!
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+    # 테이블은 poc3.0 Admin에서 관리하므로 validate로 설정
+      ddl-auto: validate
+    # 부하가 커지면 SqlStatementLogger로 JVM Thread가 block될 수 있음. 운영에서는 false로 설정
+    show-sql: true
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+jwt:
+  access-expiration-time: 3600     # 1 시간
+  refresh-expiration-time: 86400   # 1 일
+  secret: 4536d9ee05e08ea3c25eed4024f921e363848cf357ff771d1eefb510356d11e7 # openssl rand -hex 32 로 생성한 값
+
+swagger:
+  server-url: http://localhost:8080
+
+logging:
+  file:
+    name: /data/log/auto-wiki-back-service/application.log

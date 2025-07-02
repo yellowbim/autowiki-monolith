@@ -1,0 +1,52 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/auto-wiki-dev
+    username: clabi
+    password: Cl@bi789!
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        ddl-auto: validate
+    show-sql: true
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  api-docs:
+    path: /docs
+    groups:
+      enabled: true
+  swagger-ui:
+    path: /docs
+    enabled: true # 사용 여부
+    groups-order: asc # 그룹 정리 순서
+    tags-sorter: alpha # tag 정리 순서
+    operations-sorter: method # delete - get - patch - post - put 순서
+    display-request-duration: true # api 처리 시간
+    doc-expansion: none # 그룹 확장 여부 (API가 많아지기 때문에 닫아놓고 필요한 부분만 열어서 사용하는게 나을듯)
+    use-root-path: true # 기본 경로로 유지하도록 설정
+  cache: # 캐싱 여부
+    disabled: true
+
+jwt:
+  access-expiration-time: 3600     # 1 시간
+  refresh-expiration-time: 86400   # 1 일
+  secret: 4536d9ee05e08ea3c25eed4024f921e363848cf357ff771d1eefb510356d11e7 # openssl rand -hex 32 로 생성한 값
+
+swagger:
+  server-url: http://localhost:8080
+
+logging:
+  file:
+    name: /data/log/auto-wiki-back-service-dev/application.log
