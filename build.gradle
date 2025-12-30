@@ -2,7 +2,8 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.3.4'
 	id 'io.spring.dependency-management' version '1.1.6'
-	id 'jacoco'
+	id 'jacoco' // sonarqube
+	id "org.sonarqube" version "4.4.1.3373"
 }
 
 group = 'clabi'
@@ -47,6 +48,10 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'org.springframework.security:spring-security-test'
 
+	// flyway
+	implementation 'org.flywaydb:flyway-mysql'
+	implementation 'org.flywaydb:flyway-core'
+
 
     implementation 'me.paulschwarz:spring-dotenv:4.0.0'
 }
@@ -72,4 +77,23 @@ jacocoTestReport {
 test {
 	useJUnitPlatform()
 	finalizedBy jacocoTestReport
+}
+
+sonarqube {
+	properties {
+		property "sonar.projectKey", "auto-wiki"
+		property "sonar.host.url", "http://localhost:9000"
+
+		// 커버리지 제외 (핵심)
+		property "sonar.coverage.exclusions",
+				"**/entity/**," +
+						"**/dto/**," +
+						"**/config/**," +
+						"**/enums/**," +
+						"**/client/**"
+
+		// JaCoCo 리포트
+		property "sonar.coverage.jacoco.xmlReportPaths",
+				"build/reports/jacoco/test/jacocoTestReport.xml"
+	}
 }
