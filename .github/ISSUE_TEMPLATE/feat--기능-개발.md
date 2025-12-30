@@ -2,7 +2,7 @@
 name: "✨ 기능 개발"
 about: "새로운 기능 개발 이슈를 등록할 때 사용하세요"
 title: "[FEAT] "
-labels: ["feature"]
+labels: ["enhancement"]
 assignees: []
 ---
 
