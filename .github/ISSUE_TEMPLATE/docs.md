@@ -2,8 +2,8 @@
 name: "🔧 수정 / 개선"
 about: "기존 기능의 버그 수정 또는 개선 작업에 사용하세요"
 title: "[FIX] "
-labels: [""]
-assignees: [documentation]
+labels: ["documentation"]
+assignees: []
 ---
 
 ## 📍 수정 대상 문서
