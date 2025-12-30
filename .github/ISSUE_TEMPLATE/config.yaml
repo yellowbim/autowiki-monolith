@@ -1,11 +1,18 @@
 blank_issues_enabled: false
+
 contact_links:
   - name: ✨ 기능 개발 요청
-    url: https://github.com/poc-kpfis-back-service/issues/new?template=feat--기능-개발-issue-template.md
+    url: https://github.com/poc-kpfis-back-service/issues/new?template=feat--기능-개발.md
     about: 새로운 기능을 개발하고 싶을 때
+
   - name: 🐞 버그 리포트
-    url: https://github.com/poc-kpfis-back-service/issues/new?template=bug-report.md
+    url: https://github.com/poc-kpfis-back-service/issues/new?template=bug--버그-리포트.md
     about: 문제를 발견했을 때
-  - name: 🔧 수정 / 개선 요청
-    url: https://github.com/poc-kpfis-back-service/issues/new?template=fix-issue.md
-    about: 기존 기능을 수정하거나 개선하고 싶을 때
+
+  - name: 🔧 기능 수정 / 개선
+    url: https://github.com/poc-kpfis-back-service/issues/new?template=fix--기능-수정.md
+    about: 기존 기능의 동작을 수정하거나 개선하고 싶을 때
+
+  - name: 📘 문서 수정
+    url: https://github.com/poc-kpfis-back-service/issues/new?template=docs--문서-수정.md
+    about: README, Wiki, API 문서 등의 수정 또는 개선
