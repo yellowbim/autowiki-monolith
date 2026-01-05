@@ -4,8 +4,8 @@ spring:
       on-profile: local
   datasource:
     url: jdbc:mysql://localhost:3306/auto-wiki-dev
-    username: clabi
-    password: Cl@bi789!
+    username: leedh
+    password: leedh
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -16,7 +16,7 @@ spring:
         format_sql: true
         show_sql: true
   messages:
-    basename: error
+    basename: error/message
     encoding: UTF-8
 
 management:

@@ -1,13 +1,13 @@
-package jjuni.global.config;
+package jjuni.global.config.security;
 
 
 import jjuni.domain.auth.jwt.JwtAuthorizationFilter;
+import jjuni.global.exception.JwtAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -23,21 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    // swagger, 로그인 예외 경로 설정
-    private static final String[] excludePath = {
-            "/",
-            "/swagger-ui/**",
-            "/swagger-resources/**",
-            "/swagger.html",
-            "/docs/**",
-            "/actuator/health",
-            "/health",
-            "/api/v1/auth/sign-in",
-            "/error",
-            "/api/v1/auth/reissue-access-token", // 재발급 요청 API
-            "/api/v1/chat/group/share/*"
-
-    };
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, JwtAuthorizationFilter jwtAuthorizationFilter)
@@ -49,19 +35,16 @@ public class SecurityConfig {
                 .httpBasic(http -> http.disable())
                 .formLogin(form -> form.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                )
                 .addFilterBefore(jwtAuthorizationFilter, BasicAuthenticationFilter.class) // jwt 필터 추가
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(excludePath).permitAll()
+                        .requestMatchers(SecurityExcludePaths.EXCLUDE_SECURITY_PATHS).permitAll()
                         .anyRequest().authenticated());
 
         return httpSecurity.getOrBuild();
     }
-
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers(excludePath);
-    }
-
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {

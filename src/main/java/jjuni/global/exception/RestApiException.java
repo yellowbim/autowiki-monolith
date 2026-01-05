@@ -9,7 +9,7 @@ public class RestApiException extends RuntimeException {
 
     // 기본 생성자
     public RestApiException(ErrorCode errorCode) {
-        super(errorCode.name()); // 로그용 (의미만)
+        super(errorCode.getMessageKey()); // 로그용 (의미만)
         this.errorCode = errorCode;
     }
 }
