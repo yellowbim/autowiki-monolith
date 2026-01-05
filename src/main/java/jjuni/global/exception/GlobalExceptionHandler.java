@@ -1,8 +1,9 @@
 package jjuni.global.exception;
 
-import jjuni.domain.common.enums.ErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
+import jjuni.domain.common.enums.ErrorCode;
+import jjuni.global.message.ErrorMessageResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,10 +19,16 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
+    private final ErrorMessageResolver resolver;
+
     // API 내부 에러
     @ExceptionHandler(RestApiException.class)
     public ResponseEntity<Object> handleRestApiException(RestApiException ex) {
-        return ResponseEntity.status(ex.getErrorCode().getHttpStatus()).body(new ErrorResponse(ex.getErrorCode().getErrorCode(), ex.getMessage()));
+        ErrorCode errorCode = ex.getErrorCode();
+
+        return ResponseEntity
+                .status(errorCode.getHttpStatus())
+                .body(ErrorResponse.from(errorCode, resolver));
     }
 
     // Handle JWT Access Token Expired Handler
@@ -47,27 +54,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponse(ErrorCode.PARAM_NOT_VALID.getErrorCode(), errors.toString()));
-    }
-
-
-
-
-    public static class ErrorResponse {
-        private final Integer errorCode;
-        private final String message;
-
-        public ErrorResponse(Integer errorCode, String message) {
-            this.errorCode = errorCode;
-            this.message = message;
-        }
-
-        public Integer getErrorCode() {
-            return errorCode;
-        }
-
-        public String getMessage() {
-            return message;
-        }
     }
 
 }

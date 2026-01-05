@@ -1,6 +1,9 @@
 package jjuni.domain.auth.service;
 
 
+import io.jsonwebtoken.ExpiredJwtException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import jjuni.domain.auth.dto.*;
 import jjuni.domain.auth.entity.AccessTokenBlacklist;
 import jjuni.domain.auth.entity.RefreshTokenEntity;
@@ -12,11 +15,10 @@ import jjuni.domain.common.enums.ErrorCode;
 import jjuni.domain.member.entity.Member;
 import jjuni.domain.member.repository.MemberRepository;
 import jjuni.global.exception.RestApiException;
-import io.jsonwebtoken.ExpiredJwtException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -111,13 +113,11 @@ public class AuthService {
     /**
      * 사용자 로그아웃
      * - 회원 refresh token 삭제
-     * @param req
      */
     @Transactional
-    public void signOut(String authorizationHeader) {
-        String accessToken = authorizationHeader.substring(7);
-
-        String userId = jwtUtil.getUserId(accessToken);
+    public void signOut(HttpServletRequest request) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userId = (String) auth.getPrincipal();
 
         // id로 사용자 정보 조회
         Optional<Member> memberInfo = memberRepository.findByUserId(userId);
@@ -128,6 +128,9 @@ public class AuthService {
 
         // 회원 refreshtoken 삭제
         refreshTokenRepository.deleteByMember_Id((member.getId()));
+
+        // Access Token 추출
+        String accessToken = (String) request.getAttribute("accessToken");
 
         // Access Token 만료 시각 파싱
         LocalDateTime expiredAt = jwtUtil.getExpiration(accessToken);

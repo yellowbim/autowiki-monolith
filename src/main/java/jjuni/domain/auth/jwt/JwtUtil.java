@@ -1,13 +1,13 @@
 package jjuni.domain.auth.jwt;
 
-import jjuni.domain.auth.repository.RefreshTokenRepository;
-import jjuni.domain.common.enums.ErrorCode;
-import jjuni.domain.member.entity.Member;
-import jjuni.global.exception.RestApiException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
+import jjuni.domain.auth.repository.RefreshTokenRepository;
+import jjuni.domain.common.enums.ErrorCode;
+import jjuni.domain.member.entity.Member;
+import jjuni.global.exception.RestApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -151,6 +151,20 @@ public class JwtUtil {
         return (String) userId;
 //        return parseClaims(token).get("userId", String.class);
     }
+
+    /**
+     * Access Token 추출
+     * @return
+     */
+//    public String resolveCurrentAccessToken() {
+//        HttpServletRequest request =
+//                ((ServletRequestAttributes) RequestContextHolder
+//                        .currentRequestAttributes())
+//                        .getRequest();
+//
+//        return request.getHeader(HttpHeaders.AUTHORIZATION).substring(7);
+//    }
+
 
     /**
      * Access Token 검증

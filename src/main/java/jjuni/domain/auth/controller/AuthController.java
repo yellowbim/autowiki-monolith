@@ -51,10 +51,9 @@ public class AuthController {
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "User Login Success")
     })
-    @ResponseBody
     @PostMapping("sign-out")
-    public ResponseEntity signOut(@RequestHeader("Authorization") String authorizationHeader) {
-        authService.signOut(authorizationHeader);
+    public ResponseEntity signOut(HttpServletRequest request) {
+        authService.signOut(request);
         return ResponseEntity.noContent().build();
     }
 

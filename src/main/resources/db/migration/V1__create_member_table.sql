@@ -3,7 +3,7 @@ CREATE TABLE `member` (
     `user_id` VARCHAR(50) NOT NULL COMMENT '아이디',
     `password` VARCHAR(255) NOT NULL COMMENT '비밀번호',
     `user_name` VARCHAR(50) NOT NULL COMMENT '이름',
-    `phone_num` VARCHAR(11) NULL COMMENT '연락처',
+    `phone_num` VARCHAR(13) NULL COMMENT '연락처',
     `email` VARCHAR(50) NOT NULL COMMENT '이메일',
     `role` VARCHAR(50) NOT NULL COMMENT '권한',
     `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '생성일',

@@ -36,7 +36,7 @@ public class Member {
     private String userName;
 
     @Comment("연락처")
-    @Column(columnDefinition = "varchar(11)")
+    @Column(columnDefinition = "varchar(13)")
     private String phoneNum;
 
     @Comment("이메일")
